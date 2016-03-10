@@ -1,5 +1,17 @@
+# Spring CORS Filter
+
 This project provides a spring filter to enable CORS.
  
+##Build
+
+```
+mvn clean package
+```
+## Run Integration Tests
+```
+mvn clean verify
+```
+
 ## Setup 
  * Add maven pom dependency in the client service:
 
