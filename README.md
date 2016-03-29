@@ -1,6 +1,10 @@
 # Spring CORS Filter
 
 This project provides a spring filter to enable CORS.
+
+##LICENSE
+
+This project is licensed under Apache v2.
  
 ##Build
 
