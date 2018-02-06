@@ -31,8 +31,12 @@ pipeline {
                     mvn clean verify -s spring-filters-config/mvn_settings_noproxy.xml
                 '''
                 // Test reports
-                junit '**/surefire-reports/junitreports/TEST*.xml'
-                step([$class: 'JacocoPublisher', maximumBranchCoverage: '90', maximumInstructionCoverage: '90'])
+            }
+            post {
+                always {
+                    junit '**/surefire-reports/junitreports/TEST*.xml'
+                    step([$class: 'JacocoPublisher', maximumBranchCoverage: '90', maximumInstructionCoverage: '90'])
+                }
             }
         }
         stage('Maven push if master') {
