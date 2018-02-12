@@ -1,6 +1,3 @@
-// Define DevCloud Artifactory for publishing non-docker image artifacts
-def artUploadServer = Artifactory.server('devcloud')
-
 // Change Snapshot to your own DevCloud Artifactory repo name
 def Snapshot = 'PROPEL'
 
@@ -10,9 +7,8 @@ pipeline {
     }
     agent {
         docker {
-            image 'maven:3.5'
+            image 'repo.ci.build.ge.com:8443/predixci-jdk-1.8-base'
             label 'dind'
-            args '-v /root/.m2:/root/.m2'
         }
     }
     stages {
@@ -39,17 +35,31 @@ pipeline {
                 }
             }
         }
-        stage('Maven push if master') {
+        stage('Publish Artifacts') {
             when {
                 branch 'master'
             }
             environment {
                 DEPLOY_CREDS = credentials('uaa-predix-artifactory-upload-credentials')
+                MAVEN_CENTRAL_STAGING_PROFILE_ID=credentials('MAVEN_CENTRAL_STAGING_PROFILE_ID')
             }
             steps {
                 sh '''#!/bin/bash -ex
-                    mvn  -B -s spring-filters-config/mvn_settings_noproxy.xml -DaltDeploymentRepository=artifactory.releases::default::https://devcloud.swcoe.ge.com/artifactory/MAAXA-MVN  -Dartifactory.password=${DEPLOY_CREDS_PSW} clean deploy
-                    mvn -B deploy -P release -s spring-filters-config/mvn_settings_noproxy.xml -D stagingProfileId=14c243d3be5b9e
+                    apk update
+                    apk add --no-cache gnupg
+                    gpg --version
+                    ln -s ${WORKSPACE} /working-dir
+
+                    mvn clean deploy -B -s spring-filters-config/mvn_settings_noproxy.xml \\
+                    -DaltDeploymentRepository=artifactory.releases::default::https://devcloud.swcoe.ge.com/artifactory/MAAXA-MVN \\
+                    -Dartifactory.password=${DEPLOY_CREDS_PSW} \\
+                    -D skipTests -e
+
+                    #Deploy/Release to maven central repository
+                    mvn clean deploy -B -P release -s spring-filters-config/mvn_settings_noproxy.xml \\
+                    -D gpg.homedir=/working-dir/spring-filters-config/gnupg \\
+                    -D stagingProfileId=$MAVEN_CENTRAL_STAGING_PROFILE_ID \\
+                    -D skipTests -e
                 '''
             }
         }
