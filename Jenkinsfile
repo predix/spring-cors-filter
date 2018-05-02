@@ -1,5 +1,7 @@
 // Change Snapshot to your own DevCloud Artifactory repo name
 def Snapshot = 'PROPEL'
+library "security-ci-commons-shared-lib"
+def NODE = nodeDetails("java")
 
 pipeline {
     options {
@@ -7,8 +9,8 @@ pipeline {
     }
     agent {
         docker {
-            image 'repo.ci.build.ge.com:8443/predixci-jdk-1.8-base'
-            label 'dind'
+            image "${NODE['IMAGE']}"
+            label "${NODE['LABEL']}"
         }
     }
     stages {
