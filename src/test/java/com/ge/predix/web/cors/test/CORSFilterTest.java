@@ -21,7 +21,6 @@ import static org.mockito.internal.util.reflection.Whitebox.getInternalState;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,14 +32,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.WriterAppender;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 
@@ -48,22 +41,6 @@ import com.ge.predix.web.cors.CORSFilter;
 
 @Test
 public class CORSFilterTest {
-
-    private StringWriter writer;
-    private Appender appender;
-
-    @BeforeClass
-    public void start() {
-        this.writer = new StringWriter();
-        this.appender = new WriterAppender(new PatternLayout("%p, %m%n"), this.writer);
-        this.writer.getBuffer().setLength(0);
-        Logger.getRootLogger().addAppender(this.appender);
-    }
-
-    @AfterClass
-    public void clean() {
-        Logger.getRootLogger().removeAppender(this.appender);
-    }
 
     @Test
     public void testRequestExpectStandardCorsResponse() throws ServletException, IOException {
