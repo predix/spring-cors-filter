@@ -53,7 +53,7 @@ pipeline {
                     ln -s ${WORKSPACE} /working-dir
 
                     mvn clean deploy -B -s spring-filters-config/mvn_settings_noproxy.xml \\
-                    -DaltDeploymentRepository=artifactory.releases::default::https://devcloud.swcoe.ge.com/artifactory/MAAXA-MVN \\
+                    -DaltDeploymentRepository=artifactory.releases::default::https://artifactory.build.ge.com/MAAXA \\
                     -Dartifactory.password=${DEPLOY_CREDS_PSW} \\
                     -D skipTests -e
 
