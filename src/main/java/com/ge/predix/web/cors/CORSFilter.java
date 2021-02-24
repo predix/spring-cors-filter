@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2017 General Electric Company
+ * Copyright 2021 General Electric Company
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.stereotype.Component;
@@ -155,7 +156,7 @@ public class CORSFilter
     }
 
     private boolean isCrossOriginRequest(final HttpServletRequest request) {
-        if (StringUtils.isEmpty(request.getHeader(HttpHeaders.ORIGIN))) {
+        if (ObjectUtils.isEmpty(request.getHeader(HttpHeaders.ORIGIN))) {
             return false;
         } 
         return true;
@@ -211,7 +212,7 @@ public class CORSFilter
     }
 
     private boolean isCorsXhrAllowedRequestUri(final String uri) {
-        if (StringUtils.isEmpty(uri)) {
+        if (ObjectUtils.isEmpty(uri)) {
             return false;
         }
 
