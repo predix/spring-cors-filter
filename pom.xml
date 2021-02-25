@@ -48,10 +48,13 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <slf4j.version>1.7.30</slf4j.version>
-        <mockito.version>1.10.19</mockito.version>
-        <testng.version>7.3.0</testng.version>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-core.version>5.3.4</spring-core.version>
+        <testng.version>7.3.0</testng.version>
+        <mockito.version>1.10.19</mockito.version>
+        <ant.version>1.10.9</ant.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
     <dependencies>
         <dependency>
@@ -91,6 +94,24 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant</artifactId>
+            <version>${ant.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
