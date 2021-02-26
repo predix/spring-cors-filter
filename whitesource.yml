@@ -1,0 +1,4 @@
+---
+image: maven:3.5
+command: mvn dependency:copy-dependencies -DincludeScope=runtime && mvn dependency:copy-dependencies -DincludeScope=compile
+dependency-dirs: .
